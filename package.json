@@ -1,0 +1,27 @@
+{
+  "name": "feeder",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@preact/signals": "^2.3.2",
+    "@rowanmanning/feed-parser": "^2.1.1",
+    "@tailwindcss/vite": "^4.1.16",
+    "preact": "^10.25.1",
+    "tailwindcss": "^4.1.16"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.9.3",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.19",
+    "nitro": "3.0.1-alpha.0",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.3"
+  },
+  "packageManager": "pnpm@10.19.0+sha512.c9fc7236e92adf5c8af42fd5bf1612df99c2ceb62f27047032f4720b33f8eacdde311865e91c411f2774f618d82f320808ecb51718bfa82c060c4ba7c76a32b8"
+}
