@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals";
+import { batch, signal } from "@preact/signals";
 import type { parseFeed } from "@rowanmanning/feed-parser";
 export type ParsedFeed = ReturnType<typeof parseFeed>;
 
@@ -17,11 +17,13 @@ export class Feed {
   }
 
   async load() {
-    this.error.value = "";
-    this.parsed.value = false;
-    this.retries.value += 1;
-    try {
+    batch(() => {
+      this.error.value = "";
+      this.parsed.value = false;
+      this.retries.value += 1;
       this.loading.value = true;
+    });
+    try {
       const sp = new URLSearchParams();
       sp.set("url", this.url);
       const feedResponse = await fetch(`/api/fetch-feed?${sp.toString()}`).then(
@@ -32,15 +34,17 @@ export class Feed {
           throw d;
         },
       ).catch(() => ({ parsed: false, error: "Failed to parse feed" }));
-      this.parsed.value = feedResponse.parsed;
       if (!feedResponse.parsed) {
         this.error.value = feedResponse.error;
         return;
       }
       const feedData = feedResponse.feed as ParsedFeed;
-      debugger;
-      this.title.value = feedData.title ?? "";
       this.data = feedResponse.feed;
+
+      batch(() => {
+        this.parsed.value = feedResponse.parsed;
+        this.title.value = feedData.title ?? "";
+      });
     } catch (err) {
       if (err instanceof Error) this.error.value = err.message;
       else this.error.value = String(err);
