@@ -5,7 +5,6 @@ export type ParsedFeed = ReturnType<typeof parseFeed>;
 export class Feed {
   url: string;
   title = signal("");
-  rawFeed: string = "";
   parsed = signal(false);
   data: ParsedFeed | undefined;
   loading = signal(false);
